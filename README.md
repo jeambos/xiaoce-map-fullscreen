@@ -81,34 +81,10 @@ node --check xiaoce-map-fullscreen.user.js
    node --check xiaoce-map-fullscreen.user.js
    ```
 
-5. 实测（见下一节），确认无回归。
+5. 在目标页面检查功能，确认无回归。
 6. 把 `xiaoce-map-fullscreen.user.js` 发布到 Greasy Fork，正文使用 `README.user.md` 的内容。
 
 版本规则见 `CHANGELOG.md` 开头。
-
-## 测试清单
-
-建议用 Chrome + Firefox 各跑一遍，手机尺寸用 Chrome DevTools 设备模拟或真机。
-
-- 按钮出现，点击进 / 出全屏，按钮文案在「全屏 / 退出全屏」之间切换。
-- 双击地图进 / 出全屏；`Esc` 退出；屏幕全屏下 `Esc` 由浏览器接管。
-- 网页全屏 / 屏幕全屏即时切换，刷新后记住选择。
-- 「显示题面」默认开启；关闭后刷新仍保持关闭；蓝色对勾只在开启时显示。
-- 文字题：标题、题号、题目透明叠加；提交按钮固定底部且能点击。
-- 含图片的题目：文字保留，配图收起；「查看本题配图」打开站点原生预览，使用站点的缩放及关闭操作。
-- 长按左键放大、右键缩小：以按下点为中心、速度约 2 级/秒、过程不空白；到最小/最大级别停止；松手后 `zoomSnap` 恢复。
-- 未手动缩放过时进入全屏自动铺满；手动缩放过后进出全屏比例尺不变。
-- 最后一题提交后自动退出全屏一次，结算面板可见；结算后主动重新全屏不会再次自动退出。
-- 触屏：单击正常选点、双击切换全屏、双指捏合缩放、长按不缩放、拖动不误触。
-- 控制台无报错，站点弹窗（如「请在地图上选择地点」）显示在地图上方。
-
-自动化测试可以用 `puppeteer-core` 连接本机 Chrome / Firefox。关键做法：
-
-- 注入脚本：`page.addScriptTag({ content: fs.readFileSync('xiaoce-map-fullscreen.user.js', 'utf8') })`。
-- 地图实例：`document.getElementById('when-where-map').__xcfLeafletMap`。
-- 触摸：`page.setViewport({ isMobile: true, hasTouch: true })` + `page.touchscreen.tap()`，双指用 CDP `Input.dispatchTouchEvent`。
-- 模拟玩完整局：点击地图 → 点「提交」→ 点「下一题」，直到出现「分享成绩」。
-- 测试页：`https://xiaoce.fun/c/cy3f799c41ffef5874`（3 题，文字题）、`https://xiaoce.fun/c/cy4f30b8f3e9c0a425`（图片题）。
 
 ## 已知限制
 
